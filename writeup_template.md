@@ -1,47 +1,42 @@
 #**Finding Lane Lines on the Road** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Finding Lane Lines on the Road**
-
 The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
 * Reflect on your work in a written report
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
 ---
 
-### Reflection
+### 1. Reflection
 
-###1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+My pipeline consisted of 4 steps (each one divided into sub-steps).
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+#### Prepare image
+First step is making sure that yellow color will be handled fine. To accomplish that I implemented change_color function which changes yellow to white. Next step is to convert image to gray scale. Then - applying Gaussian_blur (kernel_size=5) and finally canny edges (low_threshold=50, high_threshold=150).
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+![Prepare image](/files/pipeline_1.png)
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+#### Define regions of interest
+For this task I decided that I need 2 regions (calculated based on image dimensions):
+![Prepare image](/files/regions_of_interest.png)
 
-![alt text][image1]
+#### Find and filter lines
+To find lines I used Hough transform on the edges in both regions of interest.
+Results contains many unsuitable data so I implemented function filter_by_slope which removes lines with unacceptable slopes.
+
+#### Calculations
+In order to draw red lines over lane lines I needed values at extreme points.
+I decided to use simple linear regression for this task.
+
+![Calculations and drawing lines](/files/pipeline_2.png)
 
 
-###2. Identify potential shortcomings with your current pipeline
+
+###2. Potential shortcomings
+It turned out that current implementation has problems with situations like:
+* when road changes it's color (see challenge.mp4, there will be a glitch)
+* when distance between lane lines is too long
 
 
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
-
-###3. Suggest possible improvements to your pipeline
-
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+###3. Possible improvements
+* Better color-correction. I'm sure that road color issue mentioned above could be fixed
+* Straight lines don't look good when road is turning. I think it is better to draw curves instead.
