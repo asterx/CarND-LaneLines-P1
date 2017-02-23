@@ -98,9 +98,12 @@ def change_color(image, boundaries, color_to):
     b_to = np.array(boundaries[1], np.uint8)
     image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     mask = cv2.inRange(image_hsv, b_from, b_to)
-    result = image.copy()
-    result[np.where(mask==0)] = 0
-    result[np.where(mask!=0)] = color_to
+    try:
+        result = image.copy()
+        result[np.where(mask==0)] = 0
+        result[np.where(mask!=0)] = color_to
+    except:
+        return image
     return weighted_img(image, result)
 
 def filter_by_slope(lines, left, min_slope, max_slope):

@@ -1,4 +1,4 @@
-#**Finding Lane Lines on the Road** 
+#**Finding Lane Lines on the Road**
 
 The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
@@ -40,3 +40,4 @@ It turned out that current implementation has problems with situations like:
 ###3. Possible improvements
 * Better color-correction. I'm sure that road color issue mentioned above could be fixed
 * Straight lines don't look good when road is turning. I think it is better to draw curves instead.
+* Add parametrization connected to real world: for example, params I use to change regions of interest should be connected with camera position on the car.
